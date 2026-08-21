@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
  */
 class UserFactory extends Factory
 {
+<<<<<<< HEAD
     /**
      * The current password being used by the factory.
      */
@@ -29,13 +30,34 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+=======
+    protected $model = User::class;
+
+    public function definition(): array
+    {
+        return [
+            'firstName' => fake()->firstName(),
+            'lastName' => fake()->lastName(),
+            'sex' => fake()->randomElement(['Homme', 'Femme']),
+            'birthday' => fake()->dateTimeBetween('-60 years', '-18 years')->format('Y-m-d'),
+            'email' => fake()->unique()->safeEmail(),
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'),
+            'phoneNumber' => fake()->unique()->phoneNumber(),
+            'address' => fake()->address(),
+            'registrationDate' => now(),
+            'lastLogin' => now(),
+>>>>>>> origin/dev_Pasphile
             'remember_token' => Str::random(10),
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
             'two_factor_confirmed_at' => null,
         ];
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/dev_Pasphile
     /**
      * Indicate that the model's email address should be unverified.
      */
@@ -58,3 +80,8 @@ class UserFactory extends Factory
         ]);
     }
 }
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> origin/dev_Pasphile

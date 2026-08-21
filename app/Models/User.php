@@ -39,12 +39,25 @@ class User extends Authenticatable implements PasskeyUser
      *
      * @return array<string, string>
      */
+<<<<<<< HEAD
+=======
+    protected $primaryKey = 'idUser';
+
+    protected $guarded = [];
+
+>>>>>>> origin/dev_Pasphile
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
+<<<<<<< HEAD
+=======
+            'birthday' => 'date',
+            'registrationDate' => 'datetime',
+            'lastLogin' => 'datetime',
+>>>>>>> origin/dev_Pasphile
         ];
     }
 }
