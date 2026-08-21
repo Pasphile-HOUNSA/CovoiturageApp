@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('passkeys', function (Blueprint $table) {
+        Schema::create('personal_access_tokens', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('idUser')->references('idUser')->on('users')->cascadeOnDelete();
-            $table->string('name');
-            $table->string('credential_id')->unique();
-            $table->json('credential');
+            $table->morphs('tokenable');
+            $table->text('name');
+            $table->string('token', 64)->unique();
+            $table->text('abilities')->nullable();
             $table->timestamp('last_used_at')->nullable();
+            $table->timestamp('expires_at')->nullable()->index();
             $table->timestamps();
-
-            $table->index('idUser');
         });
     }
 
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('passkeys');
+        Schema::dropIfExists('personal_access_tokens');
     }
 };
