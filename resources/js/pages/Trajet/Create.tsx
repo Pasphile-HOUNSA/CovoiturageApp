@@ -1,5 +1,5 @@
 import React from "react";
-import TrajetForm from "@/components/TrajetForm";
+import TrajetForm from "@/components/trajets/TrajetForm";
 
 const CreateTrajet: React.FC = () => {
   return (

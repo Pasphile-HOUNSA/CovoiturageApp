@@ -1,5 +1,4 @@
 import { useState } from "react";
-import axios from "axios";
 
 export default function TrajetForm() {
   const [formData, setFormData] = useState({
@@ -20,10 +19,23 @@ export default function TrajetForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post("/api/trajets", formData);
-      alert("Trajet créé avec succès !");
+      const response = await fetch("/trajets", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        alert("Trajet créé avec succès !");
+      } else {
+        alert("Erreur lors de la création du trajet");
+      }
     } catch (error) {
-      alert("Erreur lors de la création du trajet");
+      alert("Erreur réseau ou serveur");
+      console.error(error);
     }
   };
 
