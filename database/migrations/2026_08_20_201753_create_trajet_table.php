@@ -20,10 +20,8 @@ return new class extends Migration
             $table->integer('placesDispo');
             $table->enum('statut', ['en attente','en cours','annulé','terminé']);
             $table->timestamps();
-
-            $table->foreign('idCar')
-                  ->references('idCar')->on('car')
-                  ->onDelete('cascade')->onUpdate('cascade');
+            $table->softDeletes();
+            $table->foreign('idCar')->references('idCar')->on('car')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

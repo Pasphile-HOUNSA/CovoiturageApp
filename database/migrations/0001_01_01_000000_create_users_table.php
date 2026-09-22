@@ -22,10 +22,15 @@ return new class extends Migration
             $table->string('password');
             $table->string('phoneNumber', 255);
             $table->string('address', 255);
+            $table->string('photoId', 255)->nullable();
+            $table->string('numPiece', 255)->nullable();
+            $table->string('scanPiece', 255)->nullable();
             $table->dateTime('registrationDate');
             $table->dateTime('lastLogin');
+            $table->boolean('isActive')->default(true);
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -36,7 +41,8 @@ return new class extends Migration
 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
+            $table->unsignedBigInteger('user_id')->nullable()->index();
+            $table->foreign('user_id')->references('idUser')->on('users')->onDelete('cascade');
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');

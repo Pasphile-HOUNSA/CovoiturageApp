@@ -1,2 +1,8 @@
 *
 !.gitignore
+!images/
+!images/*
+images/*/*
+images/*/*/*
+images/*/*/*/*
+!images/*/.gitkeep

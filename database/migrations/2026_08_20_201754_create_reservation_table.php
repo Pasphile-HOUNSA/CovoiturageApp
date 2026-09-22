@@ -23,7 +23,7 @@ return new class extends Migration
             $table->text('raisonAnnulation')->nullable();
             $table->enum('auteurAnnulation', ['Passager','Conducteur','Administrateur'])->nullable();
             $table->timestamps();
-
+            $table->softDeletes();
             $table->foreign('idTrajet')->references('idTrajet')->on('trajet')->onDelete('cascade') ->onUpdate('cascade');
             $table->foreign('idUser')->references('idUser')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });

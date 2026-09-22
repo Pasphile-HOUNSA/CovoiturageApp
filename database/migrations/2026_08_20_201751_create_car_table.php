@@ -19,11 +19,13 @@ return new class extends Migration
         $table->string('registrationNumber', 255)->unique();
         $table->integer('nbrPlaces');
         $table->string('color', 255);
+        $table->string('carte_grise_numero', 255)->nullable();
+        $table->string('carte_grise_scan', 255)->nullable();
+        $table->string('assurance_numero', 255)->nullable();
+        $table->date('assurance_expiration')->nullable();
         $table->timestamps();
-
-        $table->foreign('idUser')
-              ->references('idUser')->on('users')
-              ->onDelete('cascade')->onUpdate('cascade');
+        $table->softDeletes();
+        $table->foreign('idUser')->references('idUser')->on('users')->onDelete('cascade')->onUpdate('cascade');
     });
 }
 

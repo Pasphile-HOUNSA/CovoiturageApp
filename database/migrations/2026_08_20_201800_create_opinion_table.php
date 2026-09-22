@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('idEvaluateur');
             $table->unsignedBigInteger('idEvalue');
             $table->timestamps();
-
+            $table->softDeletes();
             $table->foreign('idTrajet')->references('idTrajet')->on('trajet')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('idEvaluateur')->references('idUser')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('idEvalue')->references('idUser')->on('users')->onDelete('cascade')->onUpdate('cascade');

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('discount', 255)->nullable();
             $table->decimal('price_km', 10, 2)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

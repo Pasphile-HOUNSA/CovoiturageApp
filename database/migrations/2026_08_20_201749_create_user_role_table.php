@@ -15,7 +15,7 @@ return new class extends Migration
             $table->unsignedBigInteger('idUser');
             $table->unsignedBigInteger('idRole');
             $table->timestamps();
-
+            $table->softDeletes();
             $table->primary(['idUser', 'idRole']);
             $table->foreign('idUser')->references('idUser')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('idRole')->references('idRole')->on('role')->onDelete('cascade')->onUpdate('cascade');

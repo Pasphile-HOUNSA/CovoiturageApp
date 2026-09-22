@@ -19,12 +19,8 @@ return new class extends Migration
             $table->enum('method', ['Espèce','Mobile money','Carte bancaire']);
             $table->enum('statut', ['en attente','validée','refusée']);
             $table->timestamps();
-
-            $table->foreign('idRes')
-                  ->references('idRes')
-                  ->on('reservation')
-                  ->onDelete('cascade')
-                  ->onUpdate('cascade');
+            $table->softDeletes();
+            $table->foreign('idRes')->references('idRes')->on('reservation')->onDelete('cascade')->onUpdate('cascade');
     });
     }
 

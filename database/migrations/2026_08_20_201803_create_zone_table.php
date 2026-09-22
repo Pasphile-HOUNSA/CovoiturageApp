@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('longitude', 9, 6);
             $table->decimal('basePrice', 10, 2);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
