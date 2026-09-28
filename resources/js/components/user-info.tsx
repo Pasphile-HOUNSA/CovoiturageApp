@@ -5,6 +5,7 @@ import type { User } from '@/types';
 
 type AuthUser = User & {
     firstName?: string;
+    idUser?: number;
     photoId?: string | null;
     avatar?: string | null;
     avatar_url?: string | null;
@@ -45,8 +46,8 @@ export function UserInfo({
 
     const avatarSrc = userPhoto
         ? getAvatarUrl(userPhoto)
-        : auth.user.photoId && auth.user.firstName
-          ? `/users/${encodeURIComponent(auth.user.firstName)}/avatar`
+                : auth.user.photoId && auth.user.idUser
+                    ? `/users/${auth.user.idUser}/avatar`
           : undefined;
 
     return (

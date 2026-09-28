@@ -124,6 +124,10 @@ class DocumentController extends Controller
             }
 
             $document->save();
+            $user = Auth::user();
+            if ($user) {
+                $user->assignDriverRoleIfEligible();
+            }
 
             return redirect()->route('documents.create')
                 ->with('success', 'Documents enregistrés avec succès.');

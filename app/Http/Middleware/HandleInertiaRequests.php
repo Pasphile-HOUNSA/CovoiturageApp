@@ -25,10 +25,14 @@ class HandleInertiaRequests extends Middleware
                     $user = $request->user();
                     $data = $user->toArray();
 
-                    $userSlug = $user->firstName ?? $user->idUser;
+                    $userSlug = $user->idUser;
                     $avatarUrl = null;
 
-                    if (!empty($user->photoId) && Storage::disk('local')->exists($user->photoId)) {
+                    $photoPath = $user->photoId
+                        ? preg_replace('#^private/#', '', ltrim($user->photoId, '/'))
+                        : null;
+
+                    if ($photoPath && Storage::disk('local')->exists($photoPath)) {
                         $avatarUrl = route('users.avatar', ['user' => $userSlug]);
                     }
 

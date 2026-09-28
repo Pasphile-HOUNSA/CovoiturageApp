@@ -96,6 +96,27 @@ class User extends Authenticatable implements PasskeyUser
         return $this->belongsToMany(Role::class, 'user_role', 'idUser', 'idRole');
     }
 
+    public function assignDriverRoleIfEligible(): void
+    {
+        if (!$this->cars()->exists() || !$this->hasValidatedDocuments()) {
+            return;
+        }
+
+        $driverRole = Role::where('content', 'Conducteur')->first();
+
+        if ($driverRole) {
+            $this->roles()->syncWithoutDetaching([$driverRole->idRole]);
+        }
+    }
+
+    public function hasValidatedDocuments(): bool
+    {
+        return $this->documents()
+            ->whereNotNull('scanPermis')
+            ->whereNotNull('certificatApt_scan')
+            ->exists();
+    }
+
     public function opinionsGiven()
     {
         return $this->hasMany(Opinion::class, 'idEvaluateur', 'idUser');

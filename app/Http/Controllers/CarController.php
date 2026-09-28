@@ -105,10 +105,9 @@ class CarController extends Controller
             'assurance_expiration' => $validated['assurance_expiration'] ?? null,
         ]);
 
-        // Assigner le rôle "Conducteur" (ID: 2) de manière unique sans doublons
         $currentUser = Auth::user();
         if ($currentUser) {
-            $currentUser->roles()->syncWithoutDetaching([2]);
+            $currentUser->assignDriverRoleIfEligible();
         }
 
         return redirect()->route('cars.create')->with('success', 'Véhicule ajouté avec succès');

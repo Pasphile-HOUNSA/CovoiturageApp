@@ -28,9 +28,10 @@ class ProfileController extends Controller
         // Récupération de l'URL de la photo d'identité : d'abord depuis la table users (private), sinon document/public
         $avatarUrl = null;
 
-        if (!empty($user->photoId)) {
-            // Build avatar URL using route key (firstName)
-            $avatarUrl = route('users.avatar', ['user' => $user->firstName]);
+        $photoPath = $this->normalizePrivatePath($user->photoId);
+
+        if ($photoPath && Storage::disk('local')->exists($photoPath)) {
+            $avatarUrl = route('users.avatar', ['user' => $user->idUser]);
         } else {
             $document = Document::where('idUser', $user->idUser)->first();
             if ($document) {

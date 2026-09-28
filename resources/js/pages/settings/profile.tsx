@@ -28,6 +28,7 @@ type UserData = {
     photoId?: string | null;
     numPiece?: string | null;
     scanPiece?: string | null;
+    avatar_url?: string | null;
     registrationDate?: string;
     lastLogin?: string;
     isActive?: boolean;
@@ -61,12 +62,8 @@ export default function Profile({
     const initialSex = user.sex || 'Homme';
     const initialNumPiece = user.numPiece || '';
 
-    const existingAvatar = user.photoId || null;
-    // If an avatar path exists in DB, use the controller streaming route to serve it
-    // Le binding de route pour User utilise `firstName` (see User::getRouteKeyName()),
-    // donc on génère l'URL avec le `firstName` encodé.
-    const existingAvatarUrl = existingAvatar ? `/users/${encodeURIComponent(user.firstName)}/avatar` : null;
-    const existingScanUrl = user.scanPiece ? `/users/${encodeURIComponent(user.firstName)}/scan` : null;
+    const existingAvatarUrl = user.avatar_url || null;
+    const existingScanUrl = user.scanPiece ? `/users/${user.idUser}/scan` : null;
 
     const [isEditing, setIsEditing] = useState(false);
     const photoFileRef = useRef<File | null>(null);
@@ -79,7 +76,7 @@ export default function Profile({
         setAvatarPreview(existingAvatarUrl);
     }, [existingAvatarUrl]);
 
-    const { data, setData, post, transform, processing, errors, reset } = useForm({
+    const { data, setData, post, transform, processing, errors, reset, clearErrors } = useForm({
         _method: 'PATCH',
         lastName: initialLastName,
         firstName: initialFirstName,
@@ -103,7 +100,11 @@ export default function Profile({
         post('/settings/profile', {
             forceFormData: true,
             preserveScroll: true,
-            onSuccess: () => setIsEditing(false),
+            onSuccess: () => {
+                clearErrors();
+                setIsEditing(false);
+                setAvatarPreview(`/users/${user.idUser}/avatar?updated=${Date.now()}`);
+            },
         });
     };
 
@@ -195,6 +196,7 @@ export default function Profile({
                                         onChange={async (e) => {
                                             const file = e.target.files?.[0];
                                             if (file) {
+                                                clearErrors('photoId');
                                                 const stableFile = new File([await file.arrayBuffer()], file.name, {
                                                     type: file.type,
                                                     lastModified: file.lastModified,
@@ -359,6 +361,7 @@ export default function Profile({
                                     onChange={async (e) => {
                                         const file = e.target.files?.[0];
                                         if (!file) return;
+                                        clearErrors('scanPiece');
                                         const stableFile = new File([await file.arrayBuffer()], file.name, {
                                             type: file.type || (file.name.toLowerCase().endsWith('.pdf') ? 'application/pdf' : ''),
                                             lastModified: file.lastModified,

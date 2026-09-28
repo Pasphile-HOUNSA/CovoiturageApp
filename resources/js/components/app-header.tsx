@@ -56,14 +56,14 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
 
     const authUser = auth.user as User & {
         firstName?: string;
+        idUser?: number;
         photoId?: string | null;
         avatar?: string | null;
         avatar_url?: string | null;
         profile_photo_url?: string | null;
     };
 
-    const userPhoto =
-        authUser.avatar || authUser.avatar_url || authUser.profile_photo_url;
+    const userPhoto = authUser.avatar || authUser.avatar_url || authUser.profile_photo_url;
 
     const getAvatarUrl = (path?: string) => {
         if (!path) return undefined;
@@ -74,14 +74,14 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
         ) {
             return path;
         }
-                return path.startsWith('/') ? path : `/storage/${path}`;
+        return path.startsWith('/') ? path : undefined;
     };
 
-        const avatarSrc = userPhoto
-                ? getAvatarUrl(userPhoto)
-                : authUser.photoId && authUser.firstName
-                    ? `/users/${encodeURIComponent(authUser.firstName)}/avatar`
-                    : undefined;
+    const avatarSrc = userPhoto
+        ? getAvatarUrl(userPhoto)
+        : authUser.photoId && authUser.firstName
+          ? `/users/${authUser.idUser}/avatar`
+          : undefined;
 
     return (
         <>

@@ -28,9 +28,9 @@ Route::middleware('auth')->group(function () {
     Route::match(['put', 'post'], '/users/{user}', [UserController::class, 'update'])->name('users.update');
 
     // Route sécurisée pour les avatars / fichiers privés
-    Route::get('/users/{user}/avatar', [UserController::class, 'streamAvatar'])->name('users.avatar');
+    Route::get('/users/{user:idUser}/avatar', [UserController::class, 'streamAvatar'])->name('users.avatar');
     // Route pour streamer le scan de la pièce d'identité (décrypté)
-    Route::get('/users/{user}/scan', [UserController::class, 'streamScan'])->middleware('auth')->name('users.scan');
+    Route::get('/users/{user:idUser}/scan', [UserController::class, 'streamScan'])->middleware('auth')->name('users.scan');
 
     Route::post('/documents', [DocumentController::class, 'store'])->name('documents.store');
 
